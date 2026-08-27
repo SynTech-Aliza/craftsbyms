@@ -338,23 +338,17 @@
 <header>
   <nav class="nav">
     <a href="#top" class="logo">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-        <circle cx="22" cy="22" r="20.5" stroke="#C17A8E" stroke-width="1.4"/>
-        <path d="M22 14c-1.5 2-2 4.2-.7 6 1.1 1.5 3 1.6 3.9.2 1-1.6-.1-3.5-2-3.7" stroke="#7C8B5E" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-        <circle cx="17.5" cy="15" r="3.2" fill="#D98E4A" opacity=".85"/>
-        <circle cx="26" cy="20" r="2.2" fill="#C17A8E" opacity=".8"/>
-        <path d="M15 27c2 3 5 5 8 5.3M25 27c-1.6 3-4 4.8-6.5 5.2" stroke="#8B4A5C" stroke-width="1.1" fill="none" stroke-linecap="round"/>
-      </svg>
+      <img src="assets/img/logo.png" style="width:50px">
       <span class="logo-text">
         <span class="name">Crafts by M's</span>
         <span class="tag">Handmade with love</span>
       </span>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#top">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#works">Our Works</a></li>
-      <li><a href="#order">How to Order</a></li>
+      <li><a href="#top">HOME</a></li>
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#works">OUR WORKS</a></li>
+      <li><a href="#order">HOW TO ORDER</a></li>
     </ul>
     <div class="nav-cta">
       <a href="#contact" class="btn btn-solid" style="padding:13px 24px; font-size:12.5px;">Contact Us</a>
@@ -569,35 +563,6 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
   }, { threshold: 0.15 });
   revealEls.forEach(el => io.observe(el));
-
-  // carousel dots
-  const carousel = document.getElementById('carousel');
-  const dotsWrap = document.getElementById('dots');
-  const cards = carousel.querySelectorAll('.card');
-  cards.forEach((_, i) => {
-    const d = document.createElement('button');
-    d.className = 'dot' + (i === 0 ? ' active' : '');
-    d.setAttribute('aria-label', 'Go to slide ' + (i+1));
-    d.addEventListener('click', () => {
-      cards[i].scrollIntoView({ behavior:'smooth', inline:'start', block:'nearest' });
-    });
-    dotsWrap.appendChild(d);
-  });
-  const dots = dotsWrap.querySelectorAll('.dot');
-  let ticking = false;
-  carousel.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      let closest = 0, min = Infinity;
-      cards.forEach((c, i) => {
-        const diff = Math.abs(c.getBoundingClientRect().left - carousel.getBoundingClientRect().left);
-        if (diff < min) { min = diff; closest = i; }
-      });
-      dots.forEach((d, i) => d.classList.toggle('active', i === closest));
-      ticking = false;
-    });
-  });
 </script>
 
 </body>
