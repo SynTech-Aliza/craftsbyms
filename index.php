@@ -99,8 +99,10 @@
     display:flex; align-items:center; justify-content:space-between;
     padding:16px 32px;
     max-width:1180px; margin:0 auto;
+    position:relative;
   }
-  .logo{ display:flex; align-items:center; gap:10px; }
+  .logo{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .logo img{ width:50px; flex:0 0 auto; }
   .logo-text{ line-height:1.05; }
   .logo-text .name{ font-family:'Caveat', cursive; font-size:26px; font-weight:700; color:var(--mauve-deep); }
   .logo-text .tag{ font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--rose); display:block; }
@@ -123,10 +125,12 @@
     background:linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
     position:relative;
     overflow:hidden;
+    padding:0;
   }
   .hero .wrap{
     display:grid; grid-template-columns:1.05fr 1fr; gap:40px; align-items:center;
-    padding-top:78px; padding-bottom:70px;
+    min-height:545px;
+    padding-top:44px; padding-bottom:42px;
   }
   .hero-copy h1{
     font-size:clamp(34px, 4.6vw, 50px);
@@ -140,8 +144,46 @@
     margin-bottom:32px;
   }
   .hero-btns{ display:flex; gap:16px; flex-wrap:wrap; }
-  .hero-art{ position:relative; }
+  .hero-art{
+    position:relative; min-height:450px; display:grid; place-items:center;
+    isolation:isolate;
+  }
+  .hero-art::before, .hero-art::after{
+    content:''; position:absolute; top:50%; left:50%; border-radius:50%;
+    transform:translate(-50%, -50%);
+  }
+  .hero-art::before{
+    width:min(78%, 380px); aspect-ratio:1;
+    background:linear-gradient(145deg, #F5D9D5, #F5E5CE);
+    border:1px dashed rgba(139,74,92,.38);
+    box-shadow:inset 0 0 0 12px rgba(255,253,250,.28);
+    z-index:-1;
+  }
+  .hero-art::after{
+    width:min(88%, 430px); aspect-ratio:1;
+    border:1px dashed rgba(193,122,142,.45);
+    transform:translate(-50%, -50%) rotate(12deg);
+    z-index:-1;
+  }
   .hero-art svg{ width:100%; height:auto; }
+  .hero-art img{
+    position:relative; z-index:1; width:105%; max-height:500px; object-fit:contain;
+    transform:rotate(-10deg);
+    filter:drop-shadow(0 18px 20px rgba(110,57,72,.16));
+    transition:transform .3s ease;
+  }
+  .hero-art:hover img{ transform:rotate(-8deg) translateY(-4px); }
+  .hero-art .hero-doodle{ position:absolute; z-index:2; pointer-events:none; }
+  .hero-art .hero-doodle-flower{ width:68px; left:7%; top:12%; transform:rotate(-14deg); }
+  .hero-art .hero-doodle-spark{ width:34px; right:8%; top:22%; color:var(--gold); }
+  .hero-seal{
+    position:absolute; z-index:2; right:4%; bottom:10%;
+    display:grid; place-items:center; width:92px; height:92px; padding:12px;
+    border:1px solid rgba(139,74,92,.35); border-radius:50%;
+    background:rgba(255,253,250,.9); color:var(--mauve-deep);
+    font-family:'Caveat',cursive; font-size:17px; line-height:1.05; text-align:center;
+    box-shadow:var(--shadow); transform:rotate(8deg);
+  }
   .float-badge{
     position:absolute; bottom:8%; right:6%;
     width:78px; height:78px;
@@ -163,7 +205,7 @@
   /* ---------- about ---------- */
   .about{ background:var(--white); }
   .about-grid{
-    display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start;
+    display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
   }
   .about-text p{ color:var(--ink-soft); font-size:16.5px; margin-bottom:18px; max-width:520px; }
   .values{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
@@ -175,25 +217,51 @@
   .value-card .icon{ width:34px; height:34px; margin-bottom:12px; color:var(--rose); }
   .value-card h3{ font-family:'Fraunces',serif; font-size:17px; margin-bottom:6px; color:var(--mauve-deep); }
   .value-card p{ font-size:13.5px; color:var(--ink-soft); }
-  .about-art{ position:relative; }
+  .about-art{
+    position:relative; min-height:520px; display:grid; place-items:center;
+    isolation:isolate;
+  }
+  .about-art::before{
+    content:''; position:absolute; z-index:-1; width:82%; aspect-ratio:1;
+    border-radius:50%; background:linear-gradient(145deg, #F5D9D5, #F5E5CE);
+    border:1px dashed rgba(139,74,92,.38);
+  }
+  .about-photo{
+    width:min(88%, 420px); padding:14px 14px 0; position:relative; z-index:1;
+    border:1px solid var(--line); border-radius:22px; background:var(--white);
+    box-shadow:var(--shadow); transform:rotate(3deg);
+  }
+  .about-photo img{
+    width:100%; height:360px; object-fit:contain; border-radius:14px;
+    background:var(--cream);
+  }
+  .about-photo figcaption{
+    padding:16px 10px 20px; text-align:center;
+    color:var(--mauve-deep); font-family:'Caveat',cursive; font-size:22px;
+  }
   .about-art svg{ width:100%; height:auto; }
+
+  /* ---------- personalization ---------- */
+  .customize{ background:linear-gradient(180deg, var(--cream), var(--white)); }
+  .customize-grid{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:20px; }
+  .customize-card{
+    padding:28px 24px; border:1.5px solid var(--line); border-radius:18px;
+    background:rgba(255,253,250,.8);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .customize-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--rose); }
+  .customize-card .icon{ width:40px; height:40px; margin-bottom:16px; color:var(--rose); }
+  .customize-card h3{ font-size:19px; margin-bottom:8px; }
+  .customize-card p{ color:var(--ink-soft); font-size:14.5px; }
+  .customize-cta{ display:flex; justify-content:center; margin-top:32px; }
 
   /* ---------- our works ---------- */
   .works{ background:var(--cream); position:relative; }
-  .works::before, .works::after{
-    content:''; position:absolute; top:0; bottom:0; width:80px; z-index:2; pointer-events:none;
-  }
-  .works::before{ left:0; background:linear-gradient(90deg, var(--cream), transparent); }
-  .works::after{ right:0; background:linear-gradient(270deg, var(--cream), transparent); }
   .carousel{
-    display:flex; gap:24px; overflow-x:auto; scroll-snap-type:x mandatory;
-    padding:6px 32px 26px; margin:0 -32px;
-    scrollbar-width:none;
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:24px; max-width:1180px; margin:0 auto; padding:6px 32px 26px;
   }
-  .carousel::-webkit-scrollbar{ display:none; }
   .card{
-    scroll-snap-align:start;
-    flex:0 0 280px;
     border-radius:22px;
     overflow:hidden;
     background:var(--white);
@@ -202,23 +270,16 @@
   }
   .card:hover{ transform:translateY(-6px); }
   .card-art{
-    height:280px; display:flex; align-items:center; justify-content:center;
+    aspect-ratio:4 / 3; display:flex; align-items:center; justify-content:center;
     position:relative;
+    overflow:hidden;
   }
   .card-art svg{ width:64%; height:64%; }
+  .card-art img{ width:100%; height:100%; object-fit:contain; padding:12px; }
   .card-body{ padding:20px 22px 26px; }
   .card-body .tag{ font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--rose); font-weight:700; }
   .card-body h3{ font-size:19px; margin:6px 0 6px; color:var(--mauve-deep); }
   .card-body p{ font-size:13.5px; color:var(--ink-soft); }
-
-  .dots{ display:flex; justify-content:center; gap:10px; margin-top:8px; }
-  .dot{
-    width:11px; height:11px; border-radius:50%;
-    background:var(--rose-soft); opacity:.45;
-    border:none; cursor:pointer; padding:0;
-    transition:transform .2s ease, opacity .2s ease, background .2s ease;
-  }
-  .dot.active{ opacity:1; background:var(--mauve); transform:scale(1.25); }
 
   /* ---------- how to order ---------- */
   .order{ background:var(--white); }
@@ -242,6 +303,22 @@
   .step-list li{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; color:var(--ink-soft); }
   .step-list li svg{ flex:0 0 16px; margin-top:4px; color:var(--rose); }
   .order-intro{ text-align:center; max-width:560px; margin:0 auto 52px; color:var(--ink-soft); font-size:16px; }
+  .faq{ max-width:760px; margin:88px auto 0; padding-top:64px; border-top:1px solid var(--line); }
+  .faq-head{ text-align:center; margin-bottom:30px; }
+  .faq-head h2{ font-size:clamp(26px,3vw,36px); margin:10px 0; }
+  .faq-head p{ color:var(--ink-soft); }
+  .faq-list{ display:grid; gap:12px; }
+  .faq-item{ border:1px solid var(--line); border-radius:14px; background:var(--white); }
+  .faq-item summary{
+    display:flex; justify-content:space-between; align-items:center; gap:16px;
+    padding:18px 20px; cursor:pointer; color:var(--mauve-deep);
+    font-family:'Fraunces',serif; font-size:17px; font-weight:600; list-style:none;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary::after{ content:'+'; color:var(--rose); font:700 22px 'Karla',sans-serif; }
+  .faq-item[open] summary::after{ content:'-'; }
+  .faq-item p{ padding:0 20px 20px; color:var(--ink-soft); font-size:14.5px; }
+  .faq-item a{ color:var(--mauve); text-decoration:underline; text-underline-offset:3px; }
 
   /* ---------- contact ---------- */
   .contact{ background:linear-gradient(180deg, var(--cream-deep), var(--cream)); position:relative; overflow:hidden; }
@@ -295,36 +372,44 @@
 
   /* ---------- responsive ---------- */
   @media (max-width: 980px){
-    .hero .wrap{ grid-template-columns:1fr; padding-top:52px; }
-    .hero-art{ order:-1; max-width:420px; margin:0 auto; }
+    .hero .wrap{ grid-template-columns:1fr; min-height:0; gap:20px; padding-top:28px; padding-bottom:36px; }
+    .hero-art{ order:-1; width:100%; max-width:360px; min-height:340px; margin:0 auto; }
+    .hero-art img{ max-height:380px; }
+    .hero-art .hero-doodle-flower{ width:52px; }
+    .hero-seal{ width:76px; height:76px; font-size:15px; }
     .about-grid{ grid-template-columns:1fr; }
-    .about-art{ order:-1; max-width:380px; margin:0 auto; }
+    .about-art{ order:1; width:100%; max-width:500px; min-height:0; margin:24px auto 0; }
+    .about-photo{ width:min(88%, 420px); }
+    .about-photo img{ height:320px; }
     .contact-grid{ grid-template-columns:1fr; }
+    .customize-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
     .footer-grid{ grid-template-columns:1fr 1fr; }
   }
   @media (max-width: 760px){
     .nav-links{
-      position:fixed; top:73px; left:0; right:0; background:var(--cream);
+      position:absolute; top:100%; left:0; right:0; background:var(--cream);
       flex-direction:column; gap:0; padding:10px 32px 20px;
       border-bottom:1px solid var(--line);
-      transform:translateY(-130%); opacity:0; pointer-events:none;
+      transform:translateY(-10px); opacity:0; pointer-events:none; visibility:hidden;
       transition:transform .3s ease, opacity .3s ease;
     }
-    .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; visibility:visible; }
     .nav-links a{ padding:14px 0; border-bottom:1px solid var(--line); }
     .burger{ display:block; }
     .nav-cta .btn-solid{ padding:11px 20px; font-size:12.5px; }
     section{ padding:70px 0; }
     .values{ grid-template-columns:1fr; }
     .footer-grid{ grid-template-columns:1fr; gap:28px; }
+    .customize-grid{ grid-template-columns:1fr; }
+    .about-art{ display:none; }
     .step{ gap:16px; }
   }
   @media (max-width: 480px){
     .wrap{ padding:0 20px; }
     .nav{ padding:14px 20px; }
+    .nav-cta .btn-solid{ display:none; }
     .hero-btns .btn, .contact-actions .btn{ width:100%; }
-    .card{ flex-basis:240px; }
-    .card-art{ height:230px; }
+    .carousel{ grid-template-columns:1fr; gap:18px; padding:6px 20px 26px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -338,7 +423,7 @@
 <header>
   <nav class="nav">
     <a href="#top" class="logo">
-      <img src="assets/img/logo.png" style="width:50px">
+      <img src="assets/img/logo.png" alt="">
       <span class="logo-text">
         <span class="name">Crafts by M's</span>
         <span class="tag">Handmade with love</span>
@@ -349,6 +434,7 @@
       <li><a href="#about">ABOUT</a></li>
       <li><a href="#works">OUR WORKS</a></li>
       <li><a href="#order">HOW TO ORDER</a></li>
+      <li><a href="#contact">CONTACT</a></li>
     </ul>
     <div class="nav-cta">
       <a href="#contact" class="btn btn-solid" style="padding:13px 24px; font-size:12.5px;">Contact Us</a>
@@ -362,7 +448,7 @@
 <main id="top">
 
   <!-- HERO -->
-  <section class="hero" style="padding-bottom:0;">
+  <section class="hero">
     <div class="wrap">
       <div class="hero-copy reveal">
         <span class="eyebrow">Handmade with love &amp; intention</span>
@@ -374,7 +460,22 @@
         </div>
       </div>
       <div class="hero-art reveal">
-        <!-- Image Here -->
+        <svg class="hero-doodle hero-doodle-flower" viewBox="0 0 64 64" aria-hidden="true">
+          <g fill="#C17A8E">
+            <ellipse cx="32" cy="12" rx="6" ry="11"/>
+            <ellipse cx="32" cy="12" rx="6" ry="11" transform="rotate(60 32 32)"/>
+            <ellipse cx="32" cy="12" rx="6" ry="11" transform="rotate(120 32 32)"/>
+            <ellipse cx="32" cy="12" rx="6" ry="11" transform="rotate(180 32 32)"/>
+            <ellipse cx="32" cy="12" rx="6" ry="11" transform="rotate(240 32 32)"/>
+            <ellipse cx="32" cy="12" rx="6" ry="11" transform="rotate(300 32 32)"/>
+          </g>
+          <circle cx="32" cy="32" r="6" fill="#D98E4A"/>
+        </svg>
+        <svg class="hero-doodle hero-doodle-spark" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 1l3.2 11.8L31 16l-11.8 3.2L16 31l-3.2-11.8L1 16l11.8-3.2z" fill="currentColor"/>
+        </svg>
+        <span class="hero-seal" aria-hidden="true">Made<br>with love</span>
+        <img src="assets/img/flower.png" alt="Hand-crocheted orange and white flower bouquet wrapped as a gift">
       </div>
     </div>
     <svg class="stitch" viewBox="0 0 1180 22" preserveAspectRatio="none"><path d="M0 11 Q 30 0, 60 11 T 120 11 T 180 11 T 240 11 T 300 11 T 360 11 T 420 11 T 480 11 T 540 11 T 600 11 T 660 11 T 720 11 T 780 11 T 840 11 T 900 11 T 960 11 T 1020 11 T 1080 11 T 1140 11 T 1180 11" pathLength="900"/></svg>
@@ -412,7 +513,50 @@
         </div>
       </div>
       <div class="about-art reveal">
-        <!-- Image here -->
+        <figure class="about-photo">
+          <img src="assets/img/logo.png" alt="Crafts by M's handmade logo" loading="lazy">
+          <figcaption>Thoughtfully handmade, one detail at a time.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONALIZATION -->
+  <section class="customize" id="customize">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">A personal touch</span>
+        <h2>Make It Your Own</h2>
+        <p>Share the details that make your idea yours. We’ll shape each handmade piece around your colors, message, and occasion.</p>
+      </div>
+      <div class="customize-grid">
+        <article class="customize-card reveal">
+          <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <circle cx="11" cy="12" r="6"/><circle cx="21" cy="12" r="6"/>
+            <circle cx="16" cy="21" r="6"/><path d="M8 27h16"/>
+          </svg>
+          <h3>Choose your colors</h3>
+          <p>Tell us the shades you love or share a color palette to guide your custom design.</p>
+        </article>
+        <article class="customize-card reveal">
+          <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <path d="M7 5h18v22H7z"/><path d="M11 12h10M11 17h7"/>
+            <path d="m19 23 6-6 3 3-6 6-4 1z"/>
+          </svg>
+          <h3>Add a personal detail</h3>
+          <p>Include a name, initials, or a short message to make your gift feel more personal.</p>
+        </article>
+        <article class="customize-card reveal">
+          <svg class="icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <path d="M5 13h22v15H5zM3 8h26v5H3zM16 8v20"/>
+            <path d="M16 8c-8 0-9-7-4-7 3 0 4 4 4 7zm0 0c8 0 9-7 4-7-3 0-4 4-4 7z"/>
+          </svg>
+          <h3>Made for your moment</h3>
+          <p>Share the celebration or occasion, and we’ll discuss a design that fits the moment.</p>
+        </article>
+      </div>
+      <div class="customize-cta reveal">
+        <a href="#contact" class="btn btn-outline">Tell us your idea</a>
       </div>
     </div>
   </section>
@@ -423,10 +567,112 @@
       <div class="section-head reveal">
         <span class="eyebrow">Gallery</span>
         <h2>Our Works</h2>
-        <p>Browse through our popular handcrafted categories and recent custom orders.</p>
+        <p>Explore sample designs for handmade gifts, keepsakes, and personalized orders.</p>
       </div>
     </div>
     <div class="carousel reveal" id="carousel">
+      <article class="card">
+        <div class="card-art" style="background:#F6E4DA;">
+          <img src="assets/img/flower.png" alt="Hand-crocheted orange and white flower bouquet wrapped as a gift" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="tag">Bouquets</span>
+          <h3>Crochet Flower Bouquet</h3>
+          <p>A keepsake bouquet with handmade blooms in warm, cheerful colors.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art" style="background:#EAE6DE;">
+          <svg viewBox="0 0 100 100" role="img" aria-labelledby="keychain-title">
+            <title id="keychain-title">Illustration of a custom handmade keychain</title>
+            <rect x="30" y="24" width="40" height="52" rx="8" fill="#8B9C6C"/>
+            <circle cx="50" cy="24" r="9" fill="#D98E4A"/>
+            <path d="M50 76v12" stroke="#B99A6B" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="50" cy="93" r="4" fill="#B99A6B"/>
+            <path d="M40 48h20M50 38v20" stroke="#FFF7E8" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="tag">Accessories</span>
+          <h3>Personalized Keychains</h3>
+          <p>Small handmade charms customized with colors, initials, or a favorite theme.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art" style="background:#F1EAD9;">
+          <svg viewBox="0 0 100 100" role="img" aria-labelledby="gift-title">
+            <title id="gift-title">Illustration of a handmade gift box</title>
+            <ellipse cx="50" cy="80" rx="32" ry="8" fill="#D9C4A0"/>
+            <rect x="25" y="43" width="50" height="36" rx="4" fill="#EEDAD5"/>
+            <path d="M25 54h50M50 43v36" stroke="#C17A8E" stroke-width="4"/>
+            <path d="M50 43c-20-4-15-20-6-17 5 2 6 9 6 17zm0 0c20-4 15-20 6-17-5 2-6 9-6 17z" fill="#C17A8E"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="tag">Gifting</span>
+          <h3>Custom Gift Sets</h3>
+          <p>Thoughtful bundles of handmade keepsakes, put together for your special occasion.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art" style="background:#EFE3E7;">
+          <svg viewBox="0 0 100 100" role="img" aria-labelledby="decor-title">
+            <title id="decor-title">Illustration of a framed handmade floral decoration</title>
+            <rect x="22" y="18" width="56" height="66" rx="5" fill="#8B4A5C"/>
+            <rect x="28" y="24" width="44" height="54" rx="2" fill="#FFF7E8"/>
+            <path d="M50 66V43m0 14-12-10m12 6 12-13" stroke="#7C8B5E" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="50" cy="39" r="8" fill="#C17A8E"/>
+            <circle cx="38" cy="47" r="6" fill="#D98E4A"/>
+            <circle cx="62" cy="50" r="6" fill="#D99BAC"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="tag">Home</span>
+          <h3>Handmade Home Decor</h3>
+          <p>Personal touches and cozy accents designed to brighten your favorite spaces.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art" style="background:#F6ECE0;">
+          <svg viewBox="0 0 100 100" role="img" aria-labelledby="favor-title">
+            <title id="favor-title">Illustration of a small handmade celebration favor</title>
+            <path d="M50 80V43" stroke="#7C8B5E" stroke-width="4" stroke-linecap="round"/>
+            <path d="M50 62c-25-3-24-21-9-20 7 1 9 9 9 20zm0-8c25-3 24-21 9-20-7 1-9 9-9 20z" fill="#C17A8E"/>
+            <path d="M50 46c-18-3-17-17-6-16 5 1 6 7 6 16zm0-5c18-3 17-17 6-16-5 1-6 7-6 16z" fill="#D98E4A"/>
+            <path d="M38 81h24" stroke="#B99A6B" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="tag">Celebrations</span>
+          <h3>Wedding &amp; Party Favors</h3>
+          <p>Sweet handmade thank-you gifts that match your event colors and theme.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-art" style="background:#EAEFE0;">
+          <svg viewBox="0 0 100 100" role="img" aria-labelledby="toy-title">
+            <title id="toy-title">Illustration of a soft handmade animal toy</title>
+            <circle cx="50" cy="57" r="25" fill="#8B9C6C"/>
+            <circle cx="34" cy="37" r="10" fill="#8B9C6C"/>
+            <circle cx="66" cy="37" r="10" fill="#8B9C6C"/>
+            <circle cx="42" cy="54" r="3" fill="#4A3238"/>
+            <circle cx="58" cy="54" r="3" fill="#4A3238"/>
+            <ellipse cx="50" cy="64" rx="8" ry="6" fill="#FFF7E8"/>
+            <circle cx="50" cy="62" r="2" fill="#4A3238"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="tag">Playtime</span>
+          <h3>Soft Crochet Toys</h3>
+          <p>Friendly amigurumi companions made with soft colors and lots of personality.</p>
+        </div>
+      </article>
+    </div>
   </section>
 
   <!-- HOW TO ORDER -->
@@ -466,6 +712,31 @@
             <h3>Confirm &amp; We Start Crafting</h3>
             <p>We'll reply to confirm your design details, price, and delivery timeline. Once confirmed, we'll craft your custom piece with love and package it carefully for delivery!</p>
           </div>
+        </div>
+      </div>
+      <div class="faq reveal" id="faq">
+        <div class="faq-head">
+          <span class="eyebrow">Good to know</span>
+          <h2>Frequently Asked Questions</h2>
+          <p>A few helpful details before you send your custom request.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>What information should I send with my request?</summary>
+            <p>Tell us which item you have in mind, your preferred colors or personal details, and the date you need it. Reference photos or inspiration are welcome too.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I request a custom design?</summary>
+            <p>Yes. Share your idea and any details you have in mind. We’ll review the design with you and confirm the details before crafting begins.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How will I know the price and delivery timeline?</summary>
+            <p>Once we’ve reviewed your design and date, we’ll reply with the price and expected timeline for you to confirm.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I place an order?</summary>
+            <p>Send your request through our <a href="https://www.facebook.com/profile.php?id=61592484693069" target="_blank" rel="noopener">official Facebook page</a>. We’ll discuss your design details there.</p>
+          </details>
         </div>
       </div>
     </div>
@@ -524,8 +795,10 @@
         <ul>
           <li><a href="#top">Home</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#customize">Make It Your Own</a></li>
           <li><a href="#works">Our Works</a></li>
           <li><a href="#order">How to Order</a></li>
+          <li><a href="#faq">FAQs</a></li>
         </ul>
       </div>
       <div>
